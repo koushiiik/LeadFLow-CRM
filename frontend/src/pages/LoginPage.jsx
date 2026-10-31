@@ -9,6 +9,7 @@ const LoginPage = () => {
     email: '',
     password: '',
   });
+  const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
@@ -141,16 +142,27 @@ const LoginPage = () => {
             <label className="form-label">
               Password <span className="required">*</span>
             </label>
-            <input
-              type="password"
-              name="password"
-              className="form-input"
-              placeholder={isRegister ? 'At least 6 characters' : 'Enter password'}
-              value={formData.password}
-              onChange={handleChange}
-              disabled={submitting}
-              required
-            />
+            <div style={{ position: 'relative' }}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                className="form-input"
+                style={{ paddingRight: 64 }}
+                placeholder={isRegister ? 'At least 6 characters' : 'Enter password'}
+                value={formData.password}
+                onChange={handleChange}
+                disabled={submitting}
+                required
+              />
+              <button
+                type="button"
+                className="btn-toggle-password"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
           </div>
 
           <button
