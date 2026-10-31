@@ -7,6 +7,7 @@
     "client": "npm --prefix frontend run dev",
     "start": "npm --prefix backend start",
     "build": "npm --prefix backend install && npm --prefix frontend install && npm --prefix frontend run build",
+    "bundle:backend": "npm --prefix frontend run build && node -e \"require('fs').cpSync('frontend/dist', 'backend/public', { recursive: true, force: true }); console.log('Copied dist to backend/public');\"",
     "build:client": "npm --prefix frontend run build",
     "install:all": "npm --prefix backend install && npm --prefix frontend install",
     "test:api": "node backend/test/run-checklist.js"
