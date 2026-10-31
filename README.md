@@ -130,8 +130,3 @@ node backend/test/run-checklist.js
 
 ---
 
-## 7. Known Limitations & Architecture Notes
-
-- **Single Workspace Demo**: The app is designed for a single-workspace agency evaluation; multi-tenant workspace routing is intentionally out of scope.
-- **Timezone Assumptions**: Due dates are transmitted as ISO 8601 strings in UTC and rendered locally via browser locale.
-- **Out of Scope Features**: Per the specification, external automation (WhatsApp, email delivery), payment gateways, and AI lead scoring are excluded to focus on a robust evaluation MVP.
