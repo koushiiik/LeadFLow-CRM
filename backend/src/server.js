@@ -7,10 +7,28 @@ const fs = require('fs');
 const { notFoundHandler, errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
-connectDB();
 
-app.use(cors({ origin: process.env.CLIENT_URL || true, credentials: true }));
+// Sanitize CORS origin (strip trailing slash)
+const clientOrigin = process.env.CLIENT_URL
+  ? process.env.CLIENT_URL.replace(/\/+$/, '')
+  : true;
+app.use(cors({ origin: clientOrigin, credentials: true }));
 app.use(express.json());
+
+// Database connection middleware for serverless & long-running servers
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error('[Database Middleware Error]:', err.message);
+    res.status(500).json({
+      success: false,
+      message: `Database connection error: ${err.message}. Please verify MONGODB_URI and check that 0.0.0.0/0 is whitelisted in MongoDB Atlas Network Access.`,
+      errors: [err.message],
+    });
+  }
+});
 
 // REST API v1 Endpoints
 app.use('/api/v1/health', require('./routes/healthRoutes'));
@@ -38,9 +56,12 @@ if (staticPath && (process.env.NODE_ENV === 'production' || !process.env.NODE_EN
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => {
-  console.log(`[LeadFlow API] Server running on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`[LeadFlow API] Server running on port ${PORT}`);
+  });
+}
 
-module.exports = { app, server };
+module.exports = app;
+module.exports.app = app;
