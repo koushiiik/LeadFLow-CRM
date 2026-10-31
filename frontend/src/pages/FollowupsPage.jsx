@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/api';
 import Modal from '../components/Modal';
-import { CalendarCheck, Plus, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
 
 const ACTIVITY_TYPES = ['Call', 'Email', 'Meeting', 'Task'];
 
@@ -107,11 +106,11 @@ const FollowupsPage = () => {
           className="btn btn-primary"
           disabled={leadsList.length === 0}
         >
-          <Plus size={16} /> <span>Schedule Follow-up</span>
+          Schedule Follow-up
         </button>
       </div>
 
-      {error && <div className="alert alert-danger"><AlertCircle size={16} /> <span>{error}</span></div>}
+      {error && <div className="alert alert-danger"><span>{error}</span></div>}
 
       <div className="toolbar">
         <div style={{ display: 'flex', gap: 6 }}>
@@ -132,7 +131,6 @@ const FollowupsPage = () => {
           <div style={{ padding: 40, textAlign: 'center' }}><div className="spinner-dark"></div></div>
         ) : displayedActivities.length === 0 ? (
           <div className="empty-state">
-            <CalendarCheck className="empty-icon" />
             <h3 className="empty-title">No follow-ups found</h3>
             <p className="empty-desc">{leadsList.length === 0 ? 'Create a lead first.' : 'No items match this filter.'}</p>
           </div>
@@ -172,8 +170,7 @@ const FollowupsPage = () => {
                           onClick={() => handleToggleStatus(act)}
                           className={`btn btn-sm ${act.status === 'Completed' ? 'btn-secondary' : 'btn-primary'}`}
                         >
-                          <CheckCircle2 size={13} />
-                          <span>{act.status === 'Completed' ? 'Pending' : 'Complete'}</span>
+                          {act.status === 'Completed' ? 'Mark Pending' : 'Mark Complete'}
                         </button>
                       </td>
                     </tr>
@@ -186,7 +183,7 @@ const FollowupsPage = () => {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Schedule Follow-up">
-        {formError && <div className="alert alert-danger"><AlertCircle size={16} /> <span>{formError}</span></div>}
+        {formError && <div className="alert alert-danger"><span>{formError}</span></div>}
         <form onSubmit={handleCreateSubmit}>
           <div className="form-group">
             <label className="form-label">Select Lead *</label>

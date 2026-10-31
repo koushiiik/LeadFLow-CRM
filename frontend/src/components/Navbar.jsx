@@ -1,14 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import {
-  LayoutDashboard,
-  Users,
-  CalendarCheck,
-  LogOut,
-  Layers,
-  User as UserIcon,
-} from 'lucide-react';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -23,10 +15,7 @@ const Navbar = () => {
     <header className="navbar">
       <div className="navbar-inner">
         <NavLink to="/" className="brand">
-          <div className="brand-icon">
-            <Layers size={18} />
-          </div>
-          <span>LeadFlow CRM</span>
+          LeadFlow CRM
         </NavLink>
 
         <nav className="nav-links">
@@ -37,8 +26,7 @@ const Navbar = () => {
               isActive ? 'nav-link active' : 'nav-link'
             }
           >
-            <LayoutDashboard size={16} />
-            <span>Dashboard</span>
+            Dashboard
           </NavLink>
 
           <NavLink
@@ -47,8 +35,7 @@ const Navbar = () => {
               isActive ? 'nav-link active' : 'nav-link'
             }
           >
-            <Users size={16} />
-            <span>Leads</span>
+            Leads
           </NavLink>
 
           <NavLink
@@ -57,14 +44,12 @@ const Navbar = () => {
               isActive ? 'nav-link active' : 'nav-link'
             }
           >
-            <CalendarCheck size={16} />
-            <span>Follow-ups</span>
+            Follow-ups
           </NavLink>
         </nav>
 
         <div className="user-menu">
           <div className="user-badge" title={user?.email}>
-            <UserIcon size={14} />
             <span>{user?.name || 'User'}</span>
             <span className="user-role-tag">{user?.role || 'admin'}</span>
           </div>
@@ -74,8 +59,7 @@ const Navbar = () => {
             className="btn btn-secondary btn-sm"
             title="Log Out"
           >
-            <LogOut size={14} />
-            <span>Logout</span>
+            Logout
           </button>
         </div>
       </div>

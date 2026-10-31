@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../api/api';
 import Modal from '../components/Modal';
-import { Search, Plus, Trash2, ExternalLink, Mail, Phone, Building, AlertCircle, Users } from 'lucide-react';
 
 const STAGES = ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Won', 'Lost'];
 const SERVICE_OPTIONS = ['Web Development', 'Digital Marketing', 'SEO', 'Mobile App', 'UI/UX Design', 'Other'];
@@ -141,15 +140,14 @@ const LeadsPage = () => {
           <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Move leads through sales stages and manage enquiries.</p>
         </div>
         <button onClick={() => { setFormError(''); setIsAddModalOpen(true); }} className="btn btn-primary">
-          <Plus size={16} /> <span>New Lead</span>
+          New Lead
         </button>
       </div>
 
-      {error && <div className="alert alert-danger"><AlertCircle size={16} /> <span>{error}</span></div>}
+      {error && <div className="alert alert-danger"><span>{error}</span></div>}
 
       <div className="toolbar">
         <div className="search-box">
-          <Search size={16} className="search-icon" />
           <input
             type="text"
             className="input-search"
@@ -172,10 +170,9 @@ const LeadsPage = () => {
           <div style={{ padding: 40, textAlign: 'center' }}><div className="spinner-dark"></div></div>
         ) : leads.length === 0 ? (
           <div className="empty-state">
-            <Users className="empty-icon" />
             <h3 className="empty-title">No leads found</h3>
             <p className="empty-desc">{searchTerm || selectedStage !== 'All' ? 'Try adjusting search/filter.' : 'Create your first lead to get started.'}</p>
-            <button onClick={() => setIsAddModalOpen(true)} className="btn btn-primary btn-sm"><Plus size={14} /> <span>Add First Lead</span></button>
+            <button onClick={() => setIsAddModalOpen(true)} className="btn btn-primary btn-sm">Add First Lead</button>
           </div>
         ) : (
           <div className="table-responsive">
@@ -186,7 +183,7 @@ const LeadsPage = () => {
                   <th>Company</th>
                   <th>Contact Info</th>
                   <th>Budget</th>
-                  <th>Stage (Dropdown)</th>
+                  <th>Stage</th>
                   <th style={{ textAlign: 'right' }}>Actions</th>
                 </tr>
               </thead>
@@ -214,8 +211,8 @@ const LeadsPage = () => {
                     </td>
                     <td style={{ textAlign: 'right' }}>
                       <div style={{ display: 'inline-flex', gap: 6 }}>
-                        <Link to={`/leads/${lead._id}`} className="btn btn-secondary btn-icon" title="View Details"><ExternalLink size={14} /></Link>
-                        <button onClick={() => { setLeadToDelete(lead); setIsDeleteModalOpen(true); }} className="btn btn-danger-outline btn-icon" title="Delete"><Trash2 size={14} /></button>
+                        <Link to={`/leads/${lead._id}`} className="btn btn-secondary btn-sm">View</Link>
+                        <button onClick={() => { setLeadToDelete(lead); setIsDeleteModalOpen(true); }} className="btn btn-danger-outline btn-sm">Delete</button>
                       </div>
                     </td>
                   </tr>
@@ -227,7 +224,7 @@ const LeadsPage = () => {
       </div>
 
       <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} title="Add New Lead">
-        {formError && <div className="alert alert-danger"><AlertCircle size={16} /> <span>{formError}</span></div>}
+        {formError && <div className="alert alert-danger"><span>{formError}</span></div>}
         <form onSubmit={handleCreateSubmit}>
           <div className="form-group">
             <label className="form-label">Name *</label>

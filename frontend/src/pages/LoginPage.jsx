@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Layers, AlertCircle, ArrowRight } from 'lucide-react';
 
 const LoginPage = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -70,12 +69,6 @@ const LoginPage = () => {
     <div className="auth-page">
       <div className="auth-card">
         <div className="auth-header">
-          <div
-            className="brand-icon"
-            style={{ width: 44, height: 44, margin: '0 auto 12px' }}
-          >
-            <Layers size={24} />
-          </div>
           <h2 style={{ fontSize: '1.4rem', marginBottom: 4 }}>LeadFlow CRM</h2>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>
             Pipeline & Follow-up Management for Agencies
@@ -105,7 +98,6 @@ const LoginPage = () => {
 
         {formError && (
           <div className="alert alert-danger">
-            <AlertCircle size={16} />
             <span>{formError}</span>
           </div>
         )}
@@ -170,10 +162,7 @@ const LoginPage = () => {
             {submitting ? (
               <span className="spinner"></span>
             ) : (
-              <>
-                <span>{isRegister ? 'Register Account' : 'Sign In'}</span>
-                <ArrowRight size={16} />
-              </>
+              <span>{isRegister ? 'Register Account' : 'Sign In'}</span>
             )}
           </button>
         </form>

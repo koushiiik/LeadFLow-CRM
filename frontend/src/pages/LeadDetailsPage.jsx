@@ -2,15 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/api';
 import Modal from '../components/Modal';
-import {
-  ArrowLeft,
-  Save,
-  Plus,
-  CheckCircle2,
-  Clock,
-  AlertCircle,
-  Check,
-} from 'lucide-react';
 
 const STAGES = ['New', 'Contacted', 'Qualified', 'Proposal Sent', 'Won', 'Lost'];
 const SERVICE_OPTIONS = ['Web Development', 'Digital Marketing', 'SEO', 'Mobile App', 'UI/UX Design', 'Other'];
@@ -149,10 +140,10 @@ const LeadDetailsPage = () => {
   if (!lead) {
     return (
       <div className="card" style={{ padding: 40, textAlign: 'center' }}>
-        <AlertCircle size={36} color="#dc2626" style={{ margin: '0 auto 10px' }} />
         <h3>Lead Not Found</h3>
-        <button onClick={() => navigate('/leads')} className="btn btn-secondary btn-sm" style={{ marginTop: 12 }}>
-          <ArrowLeft size={14} /> <span>Back to Leads</span>
+        <p style={{ color: 'var(--text-muted)', marginTop: 6, fontSize: '0.9rem' }}>The requested lead does not exist or has been removed.</p>
+        <button onClick={() => navigate('/leads')} className="btn btn-secondary btn-sm" style={{ marginTop: 16 }}>
+          Back to Leads
         </button>
       </div>
     );
@@ -162,13 +153,13 @@ const LeadDetailsPage = () => {
     <div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
         <button onClick={() => navigate('/leads')} className="btn btn-secondary btn-sm">
-          <ArrowLeft size={14} /> <span>Back to Leads</span>
+          Back to Leads
         </button>
         <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>Lead ID: {lead._id}</span>
       </div>
 
-      {error && <div className="alert alert-danger"><AlertCircle size={16} /> <span>{error}</span></div>}
-      {successMsg && <div className="alert alert-success"><Check size={16} /> <span>{successMsg}</span></div>}
+      {error && <div className="alert alert-danger"><span>{error}</span></div>}
+      {successMsg && <div className="alert alert-success"><span>{successMsg}</span></div>}
 
       <div style={{ display: 'grid', gap: 20 }}>
         {/* Lead Form */}
@@ -176,7 +167,7 @@ const LeadDetailsPage = () => {
           <div className="card-header">
             <h2 className="card-title">Lead Profile & Pipeline Stage</h2>
             <button form="lead-form" type="submit" className="btn btn-primary btn-sm" disabled={saving}>
-              {saving ? <span className="spinner"></span> : <Save size={14} />} <span>Save</span>
+              {saving ? <span className="spinner"></span> : 'Save Changes'}
             </button>
           </div>
           <div className="card-body">
@@ -230,14 +221,13 @@ const LeadDetailsPage = () => {
           <div className="card-header">
             <h2 className="card-title">Follow-ups for {lead.name}</h2>
             <button onClick={() => { setFollowUpError(''); setIsFollowUpModalOpen(true); }} className="btn btn-primary btn-sm">
-              <Plus size={14} /> <span>Add Follow-up</span>
+              Add Follow-up
             </button>
           </div>
           <div className="card-body">
             {activities.length === 0 ? (
               <div className="empty-state" style={{ padding: 24 }}>
-                <Clock className="empty-icon" />
-                <p className="empty-desc">No follow-ups scheduled for this lead yet.</p>
+                <p className="empty-desc" style={{ marginBottom: 0 }}>No follow-ups scheduled for this lead yet.</p>
               </div>
             ) : (
               <div className="table-responsive">
@@ -266,8 +256,7 @@ const LeadDetailsPage = () => {
                           </td>
                           <td style={{ textAlign: 'right' }}>
                             <button onClick={() => toggleActivityStatus(act)} className={`btn btn-sm ${act.status === 'Completed' ? 'btn-secondary' : 'btn-primary'}`}>
-                              <CheckCircle2 size={13} />
-                              <span>{act.status === 'Completed' ? 'Pending' : 'Complete'}</span>
+                              {act.status === 'Completed' ? 'Mark Pending' : 'Mark Complete'}
                             </button>
                           </td>
                         </tr>
@@ -282,7 +271,7 @@ const LeadDetailsPage = () => {
       </div>
 
       <Modal isOpen={isFollowUpModalOpen} onClose={() => setIsFollowUpModalOpen(false)} title={`Schedule Follow-up for ${lead.name}`}>
-        {followUpError && <div className="alert alert-danger"><AlertCircle size={16} /> <span>{followUpError}</span></div>}
+        {followUpError && <div className="alert alert-danger"><span>{followUpError}</span></div>}
         <form onSubmit={handleCreateFollowUp}>
           <div className="form-group">
             <label className="form-label">Activity Title *</label>
